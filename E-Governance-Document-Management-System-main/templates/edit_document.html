@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Document - Document Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="mb-4">
+            <a href="{{ url_for('view_document', document_id=document._id) }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Document
+            </a>
+        </div>
+        
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Document</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('edit_document', document_id=document._id) }}">
+                    <div class="mb-3">
+                        <label for="document_name" class="form-label">Document Name</label>
+                        <input type="text" class="form-control" id="document_name" name="document_name" value="{{ document.document_name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="document_type" class="form-label">Document Type</label>
+                        <select class="form-select" id="document_type" name="document_type" required>
+                            <option value="Educational Certificate" {% if document.document_type == 'Educational Certificate' %}selected{% endif %}>Educational Certificate</option>
+                            <option value="Identity Document" {% if document.document_type == 'Identity Document' %}selected{% endif %}>Identity Document</option>
+                            <option value="Financial Document" {% if document.document_type == 'Financial Document' %}selected{% endif %}>Financial Document</option>
+                            <option value="Legal Document" {% if document.document_type == 'Legal Document' %}selected{% endif %}>Legal Document</option>
+                            <option value="Medical Record" {% if document.document_type == 'Medical Record' %}selected{% endif %}>Medical Record</option>
+                            <option value="Other" {% if document.document_type == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_file" class="form-label">Replace File (Optional)</label>
+                        <input type="file" class="form-control" id="new_file" name="new_file">
+                        <div class="form-text">Current file: {{ document.filename }} 
+                            ({{ document.file_type if document.file_type else 'Unknown type' }})</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5 class="border-bottom pb-2 mb-3">Approval Information</h5>
+                        <div class="mb-3">
+                            <label for="approval_status" class="form-label">Approval Status</label>
+                            <select class="form-select" id="approval_status" name="approval_status" required>
+                                <option value="Pending" {% if document.approval.approval_status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option value="Approved" {% if document.approval.approval_status == 'Approved' %}selected{% endif %}>Approved</option>
+                                <option value="Rejected" {% if document.approval.approval_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="approved_by" class="form-label">Approved By</label>
+                            <input type="text" class="form-control" id="approved_by" name="approved_by" value="{{ document.approval.approved_by if document.approval else '' }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="validity_type" class="form-label">Validity Type</label>
+                            <select class="form-select" id="validity_type" name="validity_type" required>
+                                {% for v_type in ['Permanent', 'Temporary'] %}
+                                <option value="{{ v_type }}"
+                                        {% if document.approval and document.approval.validity_type == v_type %}selected{% endif %}>
+                                    {{ v_type }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3" id="expiry_date_container">
+                            <label for="expiry_date" class="form-label">Expiry Date</label>
+                            <input type="date" class="form-control" id="expiry_date" name="expiry_date" value="{{ document.approval.expiry_date.strftime('%Y-%m-%d') if document.approval and document.approval.expiry_date else '' }}">
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="renewal_required" name="renewal_required" {% if document.approval and document.approval.renewal_required %}checked{% endif %}>
+                            <label class="form-check-label" for="renewal_required">Renewal Required</label>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const validityType = document.getElementById('validity_type');
+    const expiryDateContainer = document.getElementById('expiry_date_container');
+    
+    // Toggle expiry date field visibility
+    function toggleExpiryDate() {
+        if (validityType.value === 'Temporary') {
+            expiryDateContainer.style.display = 'block';
+        } else {
+            expiryDateContainer.style.display = 'none';
+        }
+    }
+    
+    // Initialize
+    toggleExpiryDate();
+    
+    // Event listener
+    validityType.addEventListener('change', toggleExpiryDate);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Document - Document Management System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-upload me-2"></i>Upload Document</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+
+                  
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.document_name.label(class="form-label") }}
+                            {{ form.document_name(class="form-control") }}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            {{ form.document_type.label(class="form-label") }}
+                            {{ form.document_type(class="form-select") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.file.label(class="form-label") }}
+                        {{ form.file(class="form-control") }}
+                        <div class="form-text">Allowed file types: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.validity_type.label(class="form-label d-block") }}
+                        {% for subfield in form.validity_type %}
+                            <div class="form-check form-check-inline">
+                                {{ subfield(class="form-check-input") }}
+                                {{ subfield.label(class="form-check-label") }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="expiry-fields" class="row mb-3" style="display: none;">
+                        <div class="col-md-6">
+                            {{ form.expiry_date.label(class="form-label") }}
+                            {{ form.expiry_date(class="form-control") }}
+                        </div>
+
+                        <div class="col-md-6">
+                            {{ form.renewal_required.label(class="form-label d-block") }}
+                            {% for subfield in form.renewal_required %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    {{ subfield.label(class="form-check-label") }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        {{ form.submit(class="btn btn-primary") }}
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const validityInputs = document.querySelectorAll('input[name="validity_type"]');
+        const expiryFields = document.getElementById('expiry-fields');
+
+        validityInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.value === 'temporary') {
+                    expiryFields.style.display = 'flex';
+                    document.getElementById('expiry-date').required = true;
+                } else {
+                    expiryFields.style.display = 'none';
+                    document.getElementById('expiry-date').required = false;
+                }
+            });
+
+            if (input.checked && input.value === 'temporary') {
+                expiryFields.style.display = 'flex';
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Document Management System - Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="p-5">
+            <h1 class="display-4">Smart Document Management</h1>
+            <p class="lead">Secure, reliable, and efficient document management for users and issuers.</p>
+            <hr class="my-4">
+            <p>Store, manage, and track your important documents with our state-of-the-art system featuring role-based access, audit logging, and expiry notifications.</p>
+            <div class="mt-5">
+                <a class="btn btn-primary btn-lg me-2" href="{{ url_for('register') }}" role="button">
+                    <i class="fas fa-user-plus"></i> Register
+                </a>
+                <a class="btn btn-outline-primary btn-lg" href="{{ url_for('login') }}" role="button">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <img src="{{ url_for('static', filename='img/document-management.svg') }}" alt="Document Management" class="img-fluid" onerror="this.src='https://via.placeholder.com/600x400?text=Document+Management+System'">
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Secure Storage</h3>
+                <p class="card-text">Your documents are securely stored with advanced encryption and access controls.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-history fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Audit Logging</h3>
+                <p class="card-text">Every action is logged for complete transparency and accountability.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-bell fa-3x text-primary mb-3"></i>
+                <h3 class="card-title">Expiry Alerts</h3>
+                <p class="card-text">Never miss an important deadline with our automated expiry notification system.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h2>For Users</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Upload and manage personal documents</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Track document validity and expiry</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Receive timely renewal reminders</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Access documents anytime, anywhere</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h2>For Issuers</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Issue and manage official documents</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Maintain audit trails for all activities</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Verify and approve user documents</li>
+            <li class="list-group-item"><i class="fas fa-check text-success me-2"></i> Streamline document workflows</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

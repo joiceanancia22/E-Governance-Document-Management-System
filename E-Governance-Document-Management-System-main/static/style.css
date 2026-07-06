@@ -1,0 +1,26 @@
+/* style.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    margin-bottom: 20px;
+}
+
+/* Flash Message Styles */
+.alert {
+    margin-bottom: 20px;
+}
+
+/* Footer Styles */
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+.custom-file-input ~ .custom-file-label::after {
+    content: "Browse";
+}
